@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Quadratic War — Mobile</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="embed.css">
+  <style>
+    /* Mobile-specific overrides: use full width and keep canvas visible */
+    html,body{height:100%;margin:0;padding:0;background:transparent;overflow:hidden;width:100%}
+    #game-container{display:flex;align-items:center;justify-content:center;height:100vh;padding:8px}
+     /* use full available width on mobile; allow the canvas to grow beyond 560px when needed
+       and respect device safe-area insets on modern iPhones */
+     canvas{width:100%;max-width:none;height:auto;display:block;border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,0.5);box-sizing:border-box}
+     /* ensure container accounts for notch/rounded corners on iOS */
+     #game-container{padding:env(safe-area-inset-top,8px) env(safe-area-inset-right,8px) env(safe-area-inset-bottom,8px) env(safe-area-inset-left,8px)}
+    .back{position:fixed;left:12px;top:12px;background:rgba(0,0,0,0.45);color:#fff;padding:8px 10px;border-radius:8px;text-decoration:none;font-size:14px}
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="gameCanvas" width="560" height="700"></canvas>
+    <input type="text" id="hiddenInput" style="position:absolute; top:-1000px; opacity:0;">
+  </div>
+
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <script src="constants.js"></script>
+  <script src="logic.js"></script>
+  <script src="network.js"></script>
+  <script src="main.js" defer></script>
+</body>
+</html>

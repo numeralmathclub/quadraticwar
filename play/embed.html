@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+    
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Quadratic War — Embed</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="embed.css">
+</head>
+<body>
+  <!-- Minimal page: only the game container (canvas) -->
+  <div id="game-container">
+    <canvas id="gameCanvas" width="560" height="700"></canvas>
+    <input type="text" id="hiddenInput" style="position:absolute; top:-1000px; opacity:0;">
+  </div>
+
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <script src="constants.js"></script>
+  <script src="logic.js"></script>
+  <script src="network.js"></script>
+  <script src="main.js" defer></script>
+</body>
+</html>
+

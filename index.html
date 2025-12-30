@@ -1,27 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quadratic War</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quadratic War — Landing</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div id="game-container">
-        <canvas id="gameCanvas" width="560" height="700"></canvas>
-        <input type="text" id="hiddenInput" style="position:absolute; top:-1000px; opacity:0;">
+  <header class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <h1 class="title">Quadratic War</h1>
+        <p class="subtitle">A fast-paced math strategy game. Solve quadratics, deploy units, win the battlefield.</p>
+        <p class="tag">Sharpen your algebra — turn equations into tactics.</p>
+        <div class="hero-cta">
+          <button id="open-play" class="cta">Play Now</button>
+        </div>
+        <ul class="features">
+          <li><strong>Quick Matches</strong> — Jump into a game in seconds</li>
+          <li><strong>Learn As You Play</strong> — Practice solving quadratics under pressure</li>
+          <li><strong>Multiplayer</strong> — Challenge friends (peer-to-peer)</li>
+        </ul>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <!-- Decorative quadratic curve SVG -->
+        <svg viewBox="0 0 560 700" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#7c3aed" stop-opacity="0.95"/>
+              <stop offset="1" stop-color="#06b6d4" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="transparent"/>
+          <path d="M20,660 C160,480 400,480 540,50" stroke="url(#g1)" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+          <circle cx="180" cy="520" r="8" fill="#fff" opacity="0.9"/>
+          <circle cx="420" cy="220" r="10" fill="#fff" opacity="0.85"/>
+        </svg>
+      </div>
     </div>
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <script src="constants.js"></script>
-    <script src="logic.js"></script>
-    <script src="network.js"></script>
-    <script src="main.js" defer></script>
-</body>
+  </header>
 
+  <section class="about container">
+    <h2>How to play</h2>
+    <p>Solve quadratic equations to power your units. Combine strategy and algebra to outmaneuver opponents.</p>
+  </section>
+
+  <footer class="footer">
+    <div class="container">© Quadratic War</div>
+  </footer>
+  <!-- Modal popup for the play app -->
+  <div id="playModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal">
+      <iframe id="playFrame" src="about:blank" title="Quadratic War play" frameborder="0" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+    </div>
+    </div>
+
+    <script src="play-popup.js" defer></script>
+</body>
 </html>
