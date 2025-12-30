@@ -71,6 +71,9 @@
 
         // allow the play iframe to request closing via postMessage
         window.addEventListener('message', function (ev) { if (ev.data === 'closePlayPopup') closePopup(); });
+
+        // Animation logic moved to assets/js/landing/animation.js
+        // Conflicting setInterval removed.
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

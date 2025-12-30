@@ -1,210 +1,465 @@
-/* --- Landing Page Styles --- */
+/* --- Premium Landing Page Styles --- */
 :root {
-  --bg: #0f172a;
-  --card: #0b1220;
-  --muted: #94a3b8;
-  --accent1: #7c3aed;
-  --accent2: #06b6d4;
-  --glass: rgba(255, 255, 255, 0.04);
+  --bg-dark: #020617;
+  /* Slate 950 */
+  --bg-card: #0f172a;
+  /* Slate 900 */
+  --text-main: #f8fafc;
+  /* Slate 50 */
+  --text-muted: #94a3b8;
+  /* Slate 400 */
+
+  --accent-primary: #8b5cf6;
+  /* Violet 500 */
+  --accent-secondary: #06b6d4;
+  /* Cyan 500 */
+  --accent-success: #10b981;
+  /* Emerald 500 */
+  --accent-danger: #ef4444;
+  /* Red 500 */
+
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glow: 0 0 40px rgba(139, 92, 246, 0.15);
 }
 
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-body {
-  background: linear-gradient(180deg, #081129 0%, #071021 60%);
-  color: #e6eef8;
-  display: flex;
-  flex-direction: column;
+/* Background Effects */
+body::before {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+  z-index: -1;
+  filter: blur(80px);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+  z-index: -1;
+  filter: blur(80px);
 }
 
 .site {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 28px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.topbar {
+/* --- Navigation --- */
+.navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  align-items: center;
+  padding: 24px 0;
+  backdrop-filter: blur(10px);
 }
 
-.logo {
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  font-size: 20px;
-  color: var(--accent1);
+.brand {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
 }
 
-.nav {
+.nav-links {
   display: flex;
-  gap: 12px;
+  gap: 32px;
 }
 
-.nav a {
-  color: var(--muted);
+.nav-link {
+  color: var(--text-muted);
   text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
+.nav-link:hover {
+  color: var(--text-main);
+}
+
+/* --- Hero Section (V2 Centered) --- */
 .hero {
   display: flex;
-  gap: 28px;
+  flex-direction: column;
   align-items: center;
-  margin-top: 28px;
+  text-align: center;
+  padding: 80px 0 40px 0;
+  position: relative;
+  overflow: visible;
+  /* Allow 3D elements to poke out */
 }
 
-.hero-left {
-  flex: 1;
+.hero-content {
+  z-index: 2;
+  margin-bottom: 60px;
+  max-width: 800px;
 }
 
-.title {
-  font-size: 44px;
-  margin: 0 0 12px 0;
-  font-weight: 800;
-  line-height: 1;
-  color: #fff;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 99px;
+  color: var(--accent-primary);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
 }
 
-.subtitle {
-  color: var(--muted);
-  margin: 0 0 18px 0;
-  font-size: 16px;
+.hero-title {
+  font-size: 72px;
+  line-height: 1.1;
+  font-weight: 900;
+  margin: 0 0 24px 0;
+  letter-spacing: -3px;
 }
 
-.ctas {
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.3));
+}
+
+.hero-desc {
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Buttons */
+.btn-group {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
+  justify-content: center;
 }
 
-.cta {
-  background: linear-gradient(90deg, var(--accent1), var(--accent2));
-  padding: 12px 20px;
-  border-radius: 12px;
-  border: 0;
-  color: #fff;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  border-radius: 14px;
   font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
-.ghost {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 10px 14px;
-  border-radius: 10px;
-  color: var(--muted);
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  border: none;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
 }
 
-.hero-right {
-  width: 420px;
-  max-width: 42%;
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(139, 92, 246, 0.6);
 }
 
-.card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
-  padding: 14px;
-  border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
 }
 
-.screens {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
 }
 
-.screenshot {
-  height: 200px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #0b1220, #061228);
+/* --- Immersive 3D Demo Board --- */
+.demo-scene {
+  perspective: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -20px;
+  padding-bottom: 40px;
+  z-index: 1;
+}
+
+.demo-card {
+  position: relative;
+  background: #0f172a;
+  /* Solid bg to prevent see-through mess */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 32px;
+  padding: 20px;
+  box-shadow:
+    0 50px 100px -20px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(139, 92, 246, 0.2);
+  transform: rotateX(25deg) scale(0.9);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.demo-card:hover {
+  transform: rotateX(10deg) scale(0.95) translateY(-20px);
+  box-shadow:
+    0 60px 120px -20px rgba(0, 0, 0, 0.9),
+    0 0 80px rgba(6, 182, 212, 0.3);
+  border-color: var(--accent-secondary);
+}
+
+/* Grid Background inside Card */
+.demo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 45px 45px;
+  /* Match grid size exactly */
+  mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+  border-radius: 32px;
+  pointer-events: none;
+}
+
+.demo-stage {
+  position: relative;
+  /* aspect-ratio: 4/3; Remove fixed aspect, let SVG dictate */
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.screenshot svg {
-  width: 90%;
-  height: 90%;
+/* SVG Styling */
+.demo-stage svg {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
 }
 
-/* Instructions */
-.grid {
+/* Steps Indicator - Hidden or Subtle for V2? Let's hide it, it's distraction */
+.step-ui {
+  display: none;
+}
+
+/* Elements Animation */
+.game-piece {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- New Combo Popup (Replaces Equation Overlay) --- */
+.combo-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(2, 6, 23, 0.9);
+  border: 1px solid var(--accent-success);
+  box-shadow:
+    0 0 40px rgba(16, 185, 129, 0.4),
+    inset 0 0 20px rgba(16, 185, 129, 0.1);
+  padding: 20px 40px;
+  border-radius: 16px;
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  /* Let clicks pass through */
+}
+
+.combo-text {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.combo-value {
+  font-size: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  background: linear-gradient(90deg, #60A5FA, #ffffff, #F87171);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+}
+
+.combo-sub {
+  font-size: 12px;
+  color: var(--accent-success);
+  margin-top: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  animation: blink 0.5s infinite alternate;
+}
+
+@keyframes blink {
+  from {
+    opacity: 0.6;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- Animation States (4 Steps) --- */
+
+/* Utility: Reset Phase */
+.demo-card.anim-reset .game-piece {
+  transition: none !important;
+}
+
+/* STEP 1: Deployment (Default) */
+.demo-card[data-step="1"] .piece-red-active {
+  transform: translate(0, 0);
+}
+
+.demo-card[data-step="1"] .piece-blue-x2 {
+  transform: translate(0, 0);
+}
+
+.demo-card[data-step="1"] .piece-blue-4 {
+  transform: translate(0, 0);
+}
+
+.demo-card[data-step="1"] .combo-popup {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0) rotateX(-20deg);
+}
+
+/* STEP 2: Maneuver */
+.demo-card[data-step="2"] .piece-red-active {
+  transform: translate(0, 45px);
+}
+
+.demo-card[data-step="2"] .piece-blue-x2 {
+  transform: translate(45px, -90px);
+}
+
+.demo-card[data-step="2"] .piece-blue-4 {
+  transform: translate(0, 0);
+}
+
+.demo-card[data-step="2"] .combo-popup {
+  opacity: 0;
+}
+
+/* STEP 3: The Attack (Combo!) */
+.demo-card[data-step="3"] .piece-red-active {
+  transform: translate(0, 90px);
+}
+
+.demo-card[data-step="3"] .piece-blue-x2 {
+  transform: translate(45px, -90px);
+}
+
+.demo-card[data-step="3"] .piece-blue-4 {
+  transform: translate(0, 0);
+}
+
+/* Pop the Combo UI */
+.demo-card[data-step="3"] .combo-popup {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) rotateX(0deg);
+  /* Counteract parent rotation? No, parent rotates container */
+  /* If parent is rotated, popup will be 3D. Looks cool. */
+}
+
+/* Pulse Pieces */
+.demo-card[data-step="3"] .pulse-target {
+  animation: pulse-glow 0.8s infinite;
+}
+
+/* STEP 4: Resolution */
+.demo-card[data-step="4"] .piece-red-active {
+  transform: translate(0, 90px);
+}
+
+.demo-card[data-step="4"] .piece-blue-x2 {
+  transform: translate(45px, -90px) scale(0);
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.demo-card[data-step="4"] .piece-blue-4 {
+  transform: translate(0, 0) scale(0);
+  opacity: 0;
+  filter: blur(10px);
+}
+
+/* Combo stays for a bit then fades in logic loop */
+.demo-card[data-step="4"] .combo-popup {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.2);
+  /* Expand out */
+}
+
+/* --- Features Grid --- */
+.features {
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 28px;
-  margin-top: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin: 60px auto;
+  max-width: 1000px;
 }
 
-.instructions {
-  background: var(--card);
-  padding: 20px;
-  border-radius: 12px;
+/* Responsive Tweaks */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: 48px;
+  }
+
+  .demo-card {
+    transform: none;
+    /* Disable 3D on mobile for readability */
+    margin: 0 20px;
+  }
+
+  .demo-card:hover {
+    transform: none;
+  }
 }
 
-.instructions h2 {
-  margin-top: 0;
-}
-
-.pieces {
-  display: flex;
-  gap: 12px;
-  margin: 12px 0;
-}
-
-.piece {
-  background: var(--glass);
-  padding: 12px;
-  border-radius: 10px;
-  flex: 1;
-  text-align: center;
-}
-
-.piece b {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 6px;
-}
-
-/* Details column */
-.details {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.detail {
-  background: var(--card);
-  padding: 14px;
-  border-radius: 12px;
-}
-
-.detail-title {
-  margin: 0 0 8px 0;
-}
-
-.detail-text {
-  margin: 0;
-  color: var(--muted);
-}
-
-footer {
-  color: var(--muted);
-  text-align: center;
-  padding: 28px 0;
-}
-
-/* Modal tweaks — keep structure expected by landing.js */
+/* Modal tweaks base */
 .modal-overlay {
   position: fixed;
   left: 0;
@@ -214,9 +469,10 @@ footer {
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  background: rgba(2, 6, 23, 0.6);
-  z-index: 60;
+  padding: 16px;
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 100;
 }
 
 .modal-overlay.open {
@@ -225,49 +481,19 @@ footer {
 
 .modal {
   background: transparent;
-  border-radius: 10px;
 }
 
 .modal iframe {
   width: 560px;
   height: 700px;
-  border-radius: 8px;
-  display: block;
-  border: 0;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* Extracted Utility Classes */
-.hero-modes-text {
-  margin-top: 18px;
-  color: var(--muted);
-}
-
-.preview-title {
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.piece-desc {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-@media (max-width: 900px) {
-  .hero {
-    flex-direction: column;
-  }
-
-  .hero-right {
-    width: 100%;
-    max-width: none;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 600px) {
   .modal iframe {
     width: 100%;
-    height: calc(100vh - 120px);
+    height: 80vh;
   }
 }
