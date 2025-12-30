@@ -1,0 +1,43 @@
+/* Mobile-specific overrides: use full width and keep canvas visible */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: transparent;
+}
+
+#game-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 8px;
+}
+
+canvas {
+    width: 100vw;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.back {
+    position: fixed;
+    left: 12px;
+    top: 12px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Utility for hidden input */
+.hidden-input {
+    position: absolute;
+    top: -1000px;
+    opacity: 0;
+}

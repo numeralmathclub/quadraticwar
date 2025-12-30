@@ -1,67 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Quadratic War — Landing</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    :root{
-      --bg:#0f172a;
-      --card:#0b1220;
-      --muted:#94a3b8;
-      --accent1:#7c3aed;
-      --accent2:#06b6d4;
-      --glass: rgba(255,255,255,0.04);
-    }
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
-    body{background:linear-gradient(180deg,#081129 0%, #071021 60%);color:#e6eef8;display:flex;flex-direction:column}
-    .site{width:100%;max-width:1200px;margin:0 auto;padding:28px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-    .logo{font-weight:700;letter-spacing:0.4px;font-size:20px;color:var(--accent1)}
-    .nav{display:flex;gap:12px}
-    .nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:8px}
-    .hero{display:flex;gap:28px;align-items:center;margin-top:28px}
-    .hero-left{flex:1}
-    .title{font-size:44px;margin:0 0 12px 0;font-weight:800;line-height:1;color:#fff}
-    .subtitle{color:var(--muted);margin:0 0 18px 0;font-size:16px}
-    .ctas{display:flex;gap:12px;align-items:center}
-    .cta{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:12px 20px;border-radius:12px;border:0;color:#fff;font-weight:700;cursor:pointer}
-    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--muted)}
-    .hero-right{width:420px;max-width:42%;}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:14px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
-    .screens{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .screenshot{height:200px;border-radius:8px;overflow:hidden;background:linear-gradient(180deg,#0b1220,#061228);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.03)}
-    .screenshot svg{width:90%;height:90%}
-
-    /* Instructions */
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:28px;margin-top:28px}
-    .instructions{background:var(--card);padding:20px;border-radius:12px}
-    .instructions h2{margin-top:0}
-    .pieces{display:flex;gap:12px;margin:12px 0}
-    .piece{background:var(--glass);padding:12px;border-radius:10px;flex:1;text-align:center}
-    .piece b{display:block;font-size:18px;margin-bottom:6px}
-
-    /* Details column */
-    .details{display:flex;flex-direction:column;gap:12px}
-    .detail{background:var(--card);padding:14px;border-radius:12px}
-
-    footer{color:var(--muted);text-align:center;padding:28px 0}
-
-    /* Modal tweaks — keep structure expected by play-popup.js */
-    .modal-overlay{position:fixed;left:0;right:0;top:0;bottom:0;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(2,6,23,0.6);z-index:60}
-    .modal-overlay.open{display:flex}
-    .modal{background:transparent;border-radius:10px}
-    .modal iframe{width:560px;height:700px;border-radius:8px;display:block;border:0}
-
-    @media (max-width:900px){
-      .hero{flex-direction:column}
-      .hero-right{width:100%;max-width:none}
-      .grid{grid-template-columns:1fr}
-      .modal iframe{width:100%;height:calc(100vh - 120px)}
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/landing.css">
 </head>
+
 <body>
   <div class="site">
     <div class="topbar">
@@ -76,47 +22,53 @@
     <section class="hero">
       <div class="hero-left">
         <h1 class="title">Quadratic War</h1>
-        <p class="subtitle">A tactical math game on a 9×8 board — form polynomials from adjacent units. Real quadratic solutions remove opposing pieces.</p>
+        <p class="subtitle">A tactical math game on a 9×8 board — form polynomials from adjacent units. Real quadratic
+          solutions remove opposing pieces.</p>
 
         <div class="ctas">
           <button id="open-play" class="cta">Play Now</button>
           <a class="ghost" href="#how">Read Guide</a>
         </div>
 
-        <div style="margin-top:18px;color:var(--muted);">Modes: Local 2-player · Vs Computer · Peer-to-peer Online (host/join)</div>
+        <div class="hero-modes-text">Modes: Local 2-player · Vs Computer · Peer-to-peer Online
+          (host/join)</div>
       </div>
 
       <aside class="hero-right card">
-        <div style="font-weight:700;margin-bottom:8px">Live Preview</div>
+        <div class="preview-title">Live Preview</div>
         <div class="screens">
           <div class="screenshot" aria-hidden="true">
             <!-- Mock board preview (SVG) -->
             <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="gA" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient>
+                <linearGradient id="gA" x1="0" x2="1">
+                  <stop offset="0" stop-color="#7c3aed" />
+                  <stop offset="1" stop-color="#06b6d4" />
+                </linearGradient>
               </defs>
-              <rect x="6" y="6" width="268" height="188" rx="6" fill="#071026" stroke="#0b1220"/>
+              <rect x="6" y="6" width="268" height="188" rx="6" fill="#071026" stroke="#0b1220" />
               <!-- grid -->
               <g stroke="#0f172a" stroke-opacity="0.3">
-                <rect x="16" y="16" width="248" height="168" fill="none"/>
+                <rect x="16" y="16" width="248" height="168" fill="none" />
                 <g>
                   <!-- simple 8x5 preview -->
                   <g fill="#0b1220">
-                    <rect x="18" y="18" width="28" height="28" rx="4"/>
-                    <rect x="50" y="18" width="28" height="28" rx="4"/>
+                    <rect x="18" y="18" width="28" height="28" rx="4" />
+                    <rect x="50" y="18" width="28" height="28" rx="4" />
                   </g>
                 </g>
               </g>
-              <circle cx="40" cy="60" r="10" fill="#3b82f6"/>
-              <circle cx="120" cy="100" r="10" fill="#ef4444"/>
-              <path d="M20 160 C80 120 180 120 260 40" stroke="url(#gA)" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <circle cx="40" cy="60" r="10" fill="#3b82f6" />
+              <circle cx="120" cy="100" r="10" fill="#ef4444" />
+              <path d="M20 160 C80 120 180 120 260 40" stroke="url(#gA)" stroke-width="6" fill="none"
+                stroke-linecap="round" />
             </svg>
           </div>
           <div class="screenshot" aria-hidden="true">
             <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="6" width="268" height="188" rx="6" fill="#071026"/>
-              <circle cx="60" cy="70" r="12" fill="#3b82f6"/>
-              <circle cx="180" cy="120" r="12" fill="#ef4444"/>
+              <rect x="6" y="6" width="268" height="188" rx="6" fill="#071026" />
+              <circle cx="60" cy="70" r="12" fill="#3b82f6" />
+              <circle cx="180" cy="120" r="12" fill="#ef4444" />
             </svg>
           </div>
         </div>
@@ -127,29 +79,34 @@
       <main>
         <article class="instructions" id="how">
           <h2>How to play</h2>
-          <p><strong>Objective:</strong> Build contiguous chains (rows, columns or diagonals) of pieces to form polynomials. If the resulting quadratic (ax²+bx+c) has real solutions (discriminant Δ = b²−4ac ≥ 0) the opponent's pieces in that chain are removed.</p>
+          <p><strong>Objective:</strong> Build contiguous chains (rows, columns or diagonals) of pieces to form
+            polynomials. If the resulting quadratic (ax²+bx+c) has real solutions (discriminant Δ = b²−4ac ≥ 0) the
+            opponent's pieces in that chain are removed.</p>
 
           <h3>Piece types & movement</h3>
           <div class="pieces">
             <div class="piece">
               <b>Quadratic (x²)</b>
-              <div style="font-size:13px;color:var(--muted)">Range: up to 3 steps (cardinal or diagonal)</div>
+              <div class="piece-desc">Range: up to 3 steps (cardinal or diagonal)</div>
             </div>
             <div class="piece">
               <b>Linear (x)</b>
-              <div style="font-size:13px;color:var(--muted)">Range: up to 2 steps (cardinal only)</div>
+              <div class="piece-desc">Range: up to 2 steps (cardinal only)</div>
             </div>
             <div class="piece">
               <b>Constant</b>
-              <div style="font-size:13px;color:var(--muted)">Range: 1 step forward</div>
+              <div class="piece-desc">Range: 1 step forward</div>
             </div>
           </div>
 
           <h3>Chains & equations</h3>
-          <p>Pieces in a straight contiguous chain produce a polynomial by summing coefficients for the same degree. Only chains containing at least one piece from each player are evaluated. The discriminant determines if real solutions exist.</p>
+          <p>Pieces in a straight contiguous chain produce a polynomial by summing coefficients for the same degree.
+            Only chains containing at least one piece from each player are evaluated. The discriminant determines if
+            real solutions exist.</p>
 
           <h3>Winning & draws</h3>
-          <p>Eliminate all opponent pieces to win. If no quadratic can be made or global signs rule out real solutions, the game becomes a draw.</p>
+          <p>Eliminate all opponent pieces to win. If no quadratic can be made or global signs rule out real solutions,
+            the game becomes a draw.</p>
 
           <h3>Tips</h3>
           <ul>
@@ -162,21 +119,26 @@
 
       <aside class="details">
         <div class="detail" id="modes">
-          <h4 style="margin:0 0 8px 0">Game Modes</h4>
-          <p style="margin:0;color:var(--muted)">Local 2-player, Vs Computer (AI), and Peer-to-peer Online (host and join using a short code).</p>
+          <h4 class="detail-title">Game Modes</h4>
+          <p class="detail-text">Local 2-player, Vs Computer (AI), and Peer-to-peer Online (host and
+            join using a short code).</p>
         </div>
 
         <div class="detail" id="screens">
-          <h4 style="margin:0 0 8px 0">Screenshots</h4>
+          <h4 class="detail-title">Screenshots</h4>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div class="screenshot" style="height:90px"> <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg"><rect width="140" height="90" fill="#071026"/></svg></div>
-            <div class="screenshot" style="height:90px"> <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg"><rect width="140" height="90" fill="#071026"/></svg></div>
+            <div class="screenshot" style="height:90px"> <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
+                <rect width="140" height="90" fill="#071026" />
+              </svg></div>
+            <div class="screenshot" style="height:90px"> <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
+                <rect width="140" height="90" fill="#071026" />
+              </svg></div>
           </div>
         </div>
 
         <div class="detail">
-          <h4 style="margin:0 0 8px 0">Quick Rules</h4>
-          <ol style="margin:0;color:var(--muted)">
+          <h4 class="detail-title">Quick Rules</h4>
+          <ol class="detail-text">
             <li>Blue moves first in standard play.</li>
             <li>Pieces cannot jump — movement blocked by occupied tiles.</li>
             <li>Host chooses Blue when hosting online; joiner becomes Red.</li>
@@ -189,15 +151,17 @@
       © Quadratic War — built for learning and competitive play
     </footer>
 
-    <!-- Modal popup for the play app (unchanged IDs required by play-popup.js) -->
+    <!-- Modal popup for the play app (unchanged IDs required by landing.js) -->
     <div id="playModal" class="modal-overlay" aria-hidden="true">
       <div class="modal">
-        <iframe id="playFrame" src="about:blank" title="Quadratic War play" frameborder="0" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+        <iframe id="playFrame" src="about:blank" title="Quadratic War play" frameborder="0"
+          sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
       </div>
     </div>
 
   </div>
 
-  <script src="play-popup.js" defer></script>
+  <script src="assets/js/landing.js" defer></script>
 </body>
+
 </html>

@@ -1,0 +1,273 @@
+/* --- Landing Page Styles --- */
+:root {
+  --bg: #0f172a;
+  --card: #0b1220;
+  --muted: #94a3b8;
+  --accent1: #7c3aed;
+  --accent2: #06b6d4;
+  --glass: rgba(255, 255, 255, 0.04);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+body {
+  background: linear-gradient(180deg, #081129 0%, #071021 60%);
+  color: #e6eef8;
+  display: flex;
+  flex-direction: column;
+}
+
+.site {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.logo {
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  font-size: 20px;
+  color: var(--accent1);
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.hero {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.hero-left {
+  flex: 1;
+}
+
+.title {
+  font-size: 44px;
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 0 0 18px 0;
+  font-size: 16px;
+}
+
+.ctas {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.cta {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 0;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--muted);
+}
+
+.hero-right {
+  width: 420px;
+  max-width: 42%;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+}
+
+.screens {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.screenshot {
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #0b1220, #061228);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.screenshot svg {
+  width: 90%;
+  height: 90%;
+}
+
+/* Instructions */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  margin-top: 28px;
+}
+
+.instructions {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.instructions h2 {
+  margin-top: 0;
+}
+
+.pieces {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.piece {
+  background: var(--glass);
+  padding: 12px;
+  border-radius: 10px;
+  flex: 1;
+  text-align: center;
+}
+
+.piece b {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+/* Details column */
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail {
+  background: var(--card);
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.detail-title {
+  margin: 0 0 8px 0;
+}
+
+.detail-text {
+  margin: 0;
+  color: var(--muted);
+}
+
+footer {
+  color: var(--muted);
+  text-align: center;
+  padding: 28px 0;
+}
+
+/* Modal tweaks — keep structure expected by landing.js */
+.modal-overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 6, 23, 0.6);
+  z-index: 60;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.modal iframe {
+  width: 560px;
+  height: 700px;
+  border-radius: 8px;
+  display: block;
+  border: 0;
+}
+
+/* Extracted Utility Classes */
+.hero-modes-text {
+  margin-top: 18px;
+  color: var(--muted);
+}
+
+.preview-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.piece-desc {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-right {
+    width: 100%;
+    max-width: none;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal iframe {
+    width: 100%;
+    height: calc(100vh - 120px);
+  }
+}
