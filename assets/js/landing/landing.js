@@ -14,6 +14,10 @@
         var rulesModal = document.getElementById('rulesModal');
         var closeRulesBtn = document.getElementById('closeRules');
 
+        // PWA Install UI
+        var installBtn = document.getElementById('install-app');
+        var deferredPrompt;
+
         if (!overlay || !iframe) return;
 
         // Toggle Dropdown
@@ -121,6 +125,40 @@
 
         // allow the play iframe to request closing via postMessage
         window.addEventListener('message', function (ev) { if (ev.data === 'closePlayPopup') closePopup(); });
+
+        // --- PWA Install Logic ---
+        window.addEventListener('beforeinstallprompt', function (e) {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            if (installBtn) {
+                installBtn.style.display = 'inline-flex';
+            }
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', function (e) {
+                // Hide the app provided install promotion
+                installBtn.style.display = 'none';
+                // Show the install prompt
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    // Wait for the user to respond to the prompt
+                    deferredPrompt.userChoice.then(function (choiceResult) {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                        // Determine if the user installed, if so, keep button hidden. 
+                        // If canceled, we could show it again, but usually better to wait for next visit or reload.
+                    });
+                }
+            });
+        }
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
