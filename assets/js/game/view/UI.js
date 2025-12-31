@@ -10,7 +10,7 @@ export const UI_BUTTONS = {
     btnGameOverMenu: { x: 180, y: 400, w: 200, h: 50, text: "Main Menu" },
     btnConnect: { x: 130, y: 400, w: 300, h: 50, text: "CONNECT" },
     btnCancel: { x: 130, y: 470, w: 300, h: 50, text: "CANCEL" },
-    btnClose: { x: 505, y: 5, w: 40, h: 40, text: "✕" }
+    btnClose: { x: 505, y: 10, w: 40, h: 40, text: "✕" }
 };
 
 export class UI {
@@ -240,29 +240,67 @@ export class UI {
     }
 
     drawStatus(text, color) {
-        // Draw Title Bar
-        this.ctx.fillStyle = "#0f172a"; // Darker background for title
+        // --- 1. Top Bar (Title) ---
+        // Gradient Background
+        const topGrad = this.ctx.createLinearGradient(0, 0, 0, TITLE_BAR_HEIGHT);
+        topGrad.addColorStop(0, "#1e293b"); // Slate 800
+        topGrad.addColorStop(1, "#0f172a"); // Slate 900
+        this.ctx.fillStyle = topGrad;
         this.ctx.fillRect(0, 0, this.canvas.width, TITLE_BAR_HEIGHT);
 
-        this.ctx.fillStyle = COLORS.MENU_ACCENT;
-        this.ctx.font = "700 24px 'Cinzel', serif";
+        // Bottom border for Top Bar
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, TITLE_BAR_HEIGHT);
+        this.ctx.lineTo(this.canvas.width, TITLE_BAR_HEIGHT);
+        this.ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+        this.ctx.lineWidth = 1;
+        this.ctx.stroke();
+
+        // Metallic Text Gradient for Title
+        const textGrad = this.ctx.createLinearGradient(0, 0, 0, TITLE_BAR_HEIGHT);
+        textGrad.addColorStop(0, "#a5b4fc"); // Indigo 300
+        textGrad.addColorStop(0.5, "#ffffff"); // White highlight
+        textGrad.addColorStop(1, "#818cf8"); // Indigo 400
+
+        this.ctx.fillStyle = textGrad;
+        this.ctx.font = "700 28px 'Cinzel', serif";
+        this.ctx.shadowColor = "rgba(139, 92, 246, 0.5)"; // Violet Glow
+        this.ctx.shadowBlur = 10;
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.letterSpacing = "2px";
         this.ctx.fillText("QUADRATIC WAR", this.canvas.width / 2, TITLE_BAR_HEIGHT / 2 + 2);
+
+        this.ctx.shadowBlur = 0; // Reset shadow
+        this.ctx.shadowColor = "transparent"; // Reset color to avoid leaks
         this.ctx.letterSpacing = "0px";
 
-        // Draw Status Bar Background
-        this.ctx.fillStyle = "#1e293b"; // Dark Slate
-        this.ctx.fillRect(0, TITLE_BAR_HEIGHT + BOARD_HEIGHT, this.canvas.width, STATUS_BAR_HEIGHT);
+
+        // --- 2. Bottom Bar (Status) ---
+        const statusY = TITLE_BAR_HEIGHT + BOARD_HEIGHT;
+
+        // Gradient Background (Inverted direction for balance)
+        const botGrad = this.ctx.createLinearGradient(0, statusY, 0, statusY + STATUS_BAR_HEIGHT);
+        botGrad.addColorStop(0, "#0f172a"); // Slate 900
+        botGrad.addColorStop(1, "#1e293b"); // Slate 800
+        this.ctx.fillStyle = botGrad;
+        this.ctx.fillRect(0, statusY, this.canvas.width, STATUS_BAR_HEIGHT);
+
+        // Top border for Bottom Bar
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, statusY);
+        this.ctx.lineTo(this.canvas.width, statusY);
+        this.ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+        this.ctx.lineWidth = 1;
+        this.ctx.stroke();
 
         this.ctx.fillStyle = color;
         const fontSize = text.length > 30 ? 14 : 16;
-        this.ctx.font = `500 ${fontSize}px 'Lato', sans-serif`;
+        this.ctx.font = `600 ${fontSize}px 'Lato', sans-serif`;
         this.ctx.letterSpacing = "1px";
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
-        this.ctx.fillText(text.toUpperCase(), this.canvas.width / 2, TITLE_BAR_HEIGHT + BOARD_HEIGHT + STATUS_BAR_HEIGHT / 2);
+        this.ctx.fillText(text.toUpperCase(), this.canvas.width / 2, statusY + STATUS_BAR_HEIGHT / 2);
         this.ctx.letterSpacing = "0px";
 
         // Draw Close Button (Icon Style)

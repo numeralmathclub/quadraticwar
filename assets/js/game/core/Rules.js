@@ -159,11 +159,13 @@ export function checkGameEnd(board) {
     if (!hasQuad) return { status: "DRAW", reason: "No Quadratic terms left. Impossible to form equations." };
 
     // B. Impossible Solution (Only x^2 and Constants with same sign)
+    // If no constants exist, ax^2 = 0 is always solvable, so the game should continue.
     if (!hasLinear) {
         let allQuadsPos = true;
         let allQuadsNeg = true;
         let allConstPos = true;
         let allConstNeg = true;
+        let constCount = 0;
 
         for (let key in board) {
             const p = board[key];
@@ -174,13 +176,18 @@ export function checkGameEnd(board) {
                 if (sign < 0) allQuadsPos = false;
                 if (sign > 0) allQuadsNeg = false;
             } else if (parsed.degree === 0) {
+                constCount++;
                 if (sign < 0) allConstPos = false;
                 if (sign > 0) allConstNeg = false;
             }
         }
 
-        if ((allQuadsPos && allConstPos) || (allQuadsNeg && allConstNeg)) {
-            return { status: "DRAW", reason: "Analysis: Only same-sign terms left. Real solutions impossible." };
+        // Only draw if there ARE constants and they block the solution.
+        // If no constants (constCount === 0), ax^2 = 0 is solvable.
+        if (constCount > 0) {
+            if ((allQuadsPos && allConstPos) || (allQuadsNeg && allConstNeg)) {
+                return { status: "DRAW", reason: "Analysis: Only same-sign terms left. Real solutions impossible." };
+            }
         }
     }
 

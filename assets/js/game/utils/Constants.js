@@ -1,8 +1,8 @@
 export const BOARD_ROWS = 9;
 export const BOARD_COLS = 8;
 export const TILE_SIZE = 70;
-export const STATUS_BAR_HEIGHT = 50;
-export const TITLE_BAR_HEIGHT = 50;
+export const STATUS_BAR_HEIGHT = 60;
+export const TITLE_BAR_HEIGHT = 60;
 
 export const COLORS = {
     WHITE: "#1E293B",

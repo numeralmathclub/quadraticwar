@@ -20,7 +20,7 @@ export default class Game {
 
         // State
         this.gameState = "MENU"; // "MENU", "PLAYING", "HOSTING", "JOINING", "INSTRUCTIONS", "ONLINE_MENU", "GAME_OVER"
-        this.gameState = "MENU"; // "MENU", "PLAYING", "HOSTING", "JOINING", "ONLINE_MENU", "GAME_OVER"
+
         this.gameMode = null; // "PVP", "PVC", "ONLINE"
 
         this.board = {};
@@ -229,7 +229,11 @@ export default class Game {
             if (this.network) {
                 this.network.close();
             }
-            window.location.href = '/';
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage('closePlayPopup', '*');
+            } else {
+                window.location.href = '/';
+            }
             return;
         }
 

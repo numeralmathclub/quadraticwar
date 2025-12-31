@@ -65,7 +65,7 @@
 
             // Base dimensions of the game board
             var baseWidth = 560;
-            var baseHeight = 700;
+            var baseHeight = 750;
 
             // Available space (with some padding)
             var availableWidth = window.innerWidth * 0.95;
