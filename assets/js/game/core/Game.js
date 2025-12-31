@@ -232,7 +232,7 @@ export default class Game {
             if (window.parent && window.parent !== window) {
                 window.parent.postMessage('closePlayPopup', '*');
             } else {
-                window.location.href = './';
+                window.location.href = '/quadraticwar/';
             }
             return;
         }
