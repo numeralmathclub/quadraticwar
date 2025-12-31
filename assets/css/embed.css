@@ -53,6 +53,4 @@ canvas {
 }
 
 /* hide any other elements from original styles */
-h1 {
-    display: none
-}
+/* hide any other elements from original styles - h1 removed */

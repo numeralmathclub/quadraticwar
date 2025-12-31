@@ -1,6 +1,4 @@
-// --- NETWORK MANAGER ---
-
-class NetworkManager {
+export default class NetworkManager {
     constructor() {
         this.peer = null;
         this.conn = null;
@@ -23,12 +21,6 @@ class NetworkManager {
 
     initHost(onIdGenerated) {
         this.isHost = true;
-        // We can't urge PeerJS to use a custom short ID easily without a custom server.
-        // Instead, we'll let PeerJS generate a long ID, but we might want to map it?
-        // Actually, PeerJS allows providing an ID in the constructor.
-        // Let's try to grab a short ID. If it's taken, PeerJS will error. 
-        // We will try a loop.
-
         this.attemptHost(onIdGenerated);
     }
 
@@ -46,12 +38,10 @@ class NetworkManager {
 
         this.peer.on('open', (id) => {
             this.myId = id;
-            console.log('My peer ID is: ' + id);
             if (onIdGenerated) onIdGenerated(id);
         });
 
         this.peer.on('connection', (c) => {
-            console.log("Incoming connection from", c.peer);
             this.handleConnection(c);
         });
 
@@ -70,7 +60,6 @@ class NetworkManager {
         this.peer = new Peer(null, { debug: 2 });
 
         this.peer.on('open', (id) => {
-            console.log("My Peer ID (Joiner):", id);
             // Connect to host
             const conn = this.peer.connect(hostId);
             this.handleConnection(conn);
@@ -89,17 +78,14 @@ class NetworkManager {
         this.conn = conn;
 
         this.conn.on('open', () => {
-            console.log("Connected to: " + this.conn.peer);
             if (this.onConnectCallback) this.onConnectCallback();
         });
 
         this.conn.on('data', (data) => {
-            console.log("Received data:", data);
             if (this.onDataCallback) this.onDataCallback(data);
         });
 
         this.conn.on('close', () => {
-            console.log("Connection closed");
             if (this.onCloseCallback) this.onCloseCallback();
         });
     }

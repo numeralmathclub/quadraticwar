@@ -1,12 +1,12 @@
-// --- LOGIC & HELPERS ---
+import { BOARD_ROWS, BOARD_COLS, COIN_TERMS, parseTerm } from '../utils/Constants.js';
 
-function getTermAtPos(player, termType, col) {
+export function getTermAtPos(player, termType, col) {
     const terms = COIN_TERMS[termType];
     if (player === 1) return terms[terms.length - 1 - col];
     else return terms[col];
 }
 
-function isValidMove(startR, startC, endR, endC, player) {
+export function isValidMove(board, startR, startC, endR, endC, player) {
     if (startR === endR && startC === endC) return false;
     const startKey = `${startR},${startC}`;
     const endKey = `${endR},${endC}`;
@@ -51,11 +51,11 @@ function isValidMove(startR, startC, endR, endC, player) {
     return true;
 }
 
-function getValidMoves(r, c, player) {
+export function getValidMoves(board, r, c, player) {
     let moves = [];
     for (let i = 0; i < BOARD_ROWS; i++) {
         for (let j = 0; j < BOARD_COLS; j++) {
-            if (isValidMove(r, c, i, j, player)) {
+            if (isValidMove(board, r, c, i, j, player)) {
                 moves.push({ r: i, c: j });
             }
         }
@@ -63,8 +63,7 @@ function getValidMoves(r, c, player) {
     return moves;
 }
 
-// --- EQUATION DETECTION ---
-function getContiguousChain(startR, startC, deltaR, deltaC) {
+function getContiguousChain(board, startR, startC, deltaR, deltaC) {
     let chain = [];
     let currR = startR + deltaR;
     let currC = startC + deltaC;
@@ -78,7 +77,7 @@ function getContiguousChain(startR, startC, deltaR, deltaC) {
     return chain;
 }
 
-function checkForEquations(r, c, activePlayer) {
+export function checkForEquations(board, r, c, activePlayer) {
     const detected = [];
     const opponent = activePlayer === 1 ? 2 : 1;
     const axes = [
@@ -87,8 +86,8 @@ function checkForEquations(r, c, activePlayer) {
     ];
 
     axes.forEach(axis => {
-        const negChain = getContiguousChain(r, c, axis.neg[0], axis.neg[1]);
-        const posChain = getContiguousChain(r, c, axis.pos[0], axis.pos[1]);
+        const negChain = getContiguousChain(board, r, c, axis.neg[0], axis.neg[1]);
+        const posChain = getContiguousChain(board, r, c, axis.pos[0], axis.pos[1]);
         const fullChain = [...negChain.reverse(), { r, c }, ...posChain];
 
         if (fullChain.length < 2) return;
@@ -131,7 +130,7 @@ function checkForEquations(r, c, activePlayer) {
     return detected;
 }
 
-function checkGameEnd(board) {
+export function checkGameEnd(board) {
     let redPieces = 0;
     let bluePieces = 0;
     let hasQuad = false;
@@ -157,26 +156,10 @@ function checkGameEnd(board) {
     if (bluePieces === 0) return { status: "WIN_RED", reason: "All Blue pieces eliminated!" };
 
     // 2. DRAW CONDITIONS
-    // A. No Quadratics left on board (Impossible to make x^2 equation)
     if (!hasQuad) return { status: "DRAW", reason: "No Quadratic terms left. Impossible to form equations." };
 
     // B. Impossible Solution (Only x^2 and Constants with same sign)
-    // If NO linear terms exist on the board...
     if (!hasLinear) {
-        // Check Red: Has Quads AND Constants, AND signs match (e.g. 2x^2 + 4 = 0 -> x^2 = -2 -> Complex)
-        // Or if one side has ONLY constants and the other ONLY quads?
-        // Simpler rule: If global state precludes solutions.
-
-        // Let's check generally:
-        // If (All Quads Positive AND All Constants Positive) OR (All Quads Negative AND All Constants Negative)
-        // Then no real solution is possible for ax^2 + c = 0
-
-        let allQuadSign = 0;
-        let allConstSign = 0;
-
-        // Re-scan for global signs if we only have Quads + Constants in play
-        // (We already know !hasLinear)
-
         let allQuadsPos = true;
         let allQuadsNeg = true;
         let allConstPos = true;
@@ -202,71 +185,4 @@ function checkGameEnd(board) {
     }
 
     return { status: "PLAYING", reason: "" };
-}
-
-// --- AI LOGIC ---
-function makeBestMove() {
-    let allMoves = [];
-    for (let key in board) {
-        if (board[key].p === 1) { // Computer is Red (1)
-            const [r, c] = key.split(',').map(Number);
-            const moves = getValidMoves(r, c, 1);
-            moves.forEach(m => {
-                allMoves.push({ start: { r, c }, end: { r: m.r, c: m.c } });
-            });
-        }
-    }
-
-    if (allMoves.length === 0) {
-        currentPlayer = 2; resetStatusText(); return;
-    }
-
-    let bestScore = -Infinity;
-    let candidates = [];
-
-    allMoves.forEach(move => {
-        let score = 0;
-        const startKey = `${move.start.r},${move.start.c}`;
-        const endKey = `${move.end.r},${move.end.c}`;
-        const movingPiece = board[startKey];
-        delete board[startKey];
-        board[endKey] = movingPiece;
-
-        const equations = checkForEquations(move.end.r, move.end.c, 1);
-
-        delete board[endKey];
-        board[startKey] = movingPiece;
-
-        if (equations.length > 0) {
-            equations.forEach(eq => {
-                if (eq.isSuccess) score += 100 + (eq.remove.length * 10);
-                else score -= 1000;
-            });
-        } else {
-            // Heuristic: Advance forward, prefer center
-            score += (move.end.r - move.start.r) * 2;
-            if (move.end.c > 2 && move.end.c < 5) score += 1;
-            score += Math.random();
-        }
-
-        if (score > bestScore) {
-            bestScore = score; candidates = [move];
-        } else if (score === bestScore) {
-            candidates.push(move);
-        }
-    });
-
-    const selectedMove = candidates[Math.floor(Math.random() * candidates.length)];
-    const startKey = `${selectedMove.start.r},${selectedMove.start.c}`;
-    const endKey = `${selectedMove.end.r},${selectedMove.end.c}`;
-
-    board[endKey] = board[startKey];
-    delete board[startKey];
-
-    const equations = checkForEquations(selectedMove.end.r, selectedMove.end.c, 1);
-    if (equations.length > 0) {
-        animationQueue.push(...equations);
-    } else {
-        currentPlayer = 2; resetStatusText();
-    }
 }
