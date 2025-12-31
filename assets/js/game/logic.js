@@ -136,48 +136,23 @@ function checkGameEnd(board) {
     let bluePieces = 0;
     let hasQuad = false;
     let hasLinear = false;
-    let redQuad = 0, redLin = 0, redConst = 0;
-    let blueQuad = 0, blueLin = 0, blueConst = 0;
-
-    let redConstSign = 0; // 0: none, 1: pos, -1: neg, 2: mixed
-    let blueConstSign = 0;
-    let redQuadSign = 0;
-    let blueQuadSign = 0;
-
     for (let key in board) {
         const p = board[key];
         const parsed = parseTerm(p.term);
 
         if (p.p === 1) {
             redPieces++;
-            if (parsed.degree === 2) {
-                hasQuad = true; redQuad++;
-                if (redQuadSign === 0) redQuadSign = Math.sign(parsed.coeff);
-                else if (redQuadSign !== Math.sign(parsed.coeff)) redQuadSign = 2;
-            }
-            else if (parsed.degree === 1) { hasLinear = true; redLin++; }
-            else {
-                redConst++;
-                if (redConstSign === 0) redConstSign = Math.sign(parsed.coeff);
-                else if (redConstSign !== Math.sign(parsed.coeff)) redConstSign = 2;
-            }
+            if (parsed.degree === 2) { hasQuad = true; }
+            else if (parsed.degree === 1) { hasLinear = true; }
         } else {
             bluePieces++;
-            if (parsed.degree === 2) {
-                hasQuad = true; blueQuad++;
-                if (blueQuadSign === 0) blueQuadSign = Math.sign(parsed.coeff);
-                else if (blueQuadSign !== Math.sign(parsed.coeff)) blueQuadSign = 2;
-            }
-            else if (parsed.degree === 1) { hasLinear = true; blueLin++; }
-            else {
-                blueConst++;
-                if (blueConstSign === 0) blueConstSign = Math.sign(parsed.coeff);
-                else if (blueConstSign !== Math.sign(parsed.coeff)) blueConstSign = 2;
-            }
+            if (parsed.degree === 2) { hasQuad = true; }
+            else if (parsed.degree === 1) { hasLinear = true; }
         }
     }
 
     // 1. WIN CONDITIONS
+    if (redPieces === 0 && bluePieces === 0) return { status: "DRAW", reason: "Mutual Destruction! Both armies eliminated simultaneously." };
     if (redPieces === 0) return { status: "WIN_BLUE", reason: "All Red pieces eliminated!" };
     if (bluePieces === 0) return { status: "WIN_RED", reason: "All Blue pieces eliminated!" };
 

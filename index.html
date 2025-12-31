@@ -16,14 +16,9 @@
     <!-- Navigation -->
     <nav class="navbar">
       <div class="brand">Quadratic War</div>
-      <div class="nav-links">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#how-to-play" class="nav-link">How to Play</a>
-        <a href="https://github.com/renjitht/quadraticwar" target="_blank" class="nav-link">GitHub</a>
-      </div>
     </nav>
 
-    <!-- Hero Section (Centered V2) -->
+    <!-- Hero Section (Centered V2 - Redesigned) -->
     <main class="hero">
       <div class="hero-content">
         <div class="badge">✨ New: Online Multiplayer</div>
@@ -37,168 +32,20 @@
         </p>
 
         <div class="btn-group">
-          <button id="open-play" class="btn btn-primary">Play Now</button>
-          <a href="#how-to-play" class="btn btn-ghost">Learn Rules</a>
-        </div>
-      </div>
-
-      <!-- Animated Demo Board (Immersive 3D Tilt) -->
-      <div class="demo-scene">
-        <div class="demo-card" id="demo-card" data-step="1">
-          <!-- 3D Combo Popup -->
-          <div class="combo-popup" id="combo-popup">
-            <div class="combo-text">EQUATION FORMED</div>
-            <div class="combo-value">x² + 5x + 4 = 0</div>
-            <div class="combo-sub">CRITICAL HIT</div>
+          <!-- Play Dropdown -->
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle">Play Now ▾</button>
+            <div class="dropdown-menu">
+              <a href="#" class="dropdown-item" data-mode="PVP">2 Players (Local)</a>
+              <a href="#" class="dropdown-item" data-mode="PVC">Vs Computer</a>
+              <a href="#" class="dropdown-item" data-mode="ONLINE">Online PvP</a>
+            </div>
           </div>
 
-          <div class="demo-stage">
-            <!-- 600x500 ViewBox for High-Def Board -->
-            <svg width="600" height="500" viewBox="0 0 360 405" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Board Background -->
-              <rect width="360" height="405" fill="#0f172a" rx="12" />
-
-              <!-- Definitions -->
-              <defs>
-                <!-- Grid Cell Pattern -->
-                <pattern id="grid" width="45" height="45" patternUnits="userSpaceOnUse">
-                  <rect width="45" height="45" fill="none" />
-                  <!-- Tile Border -->
-                  <path d="M44 0V44H0" fill="none" stroke="#1e293b" stroke-width="1" />
-                </pattern>
-
-                <!-- Blue Piece Template -->
-                <g id="p-blue">
-                  <rect x="4" y="4" width="37" height="37" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
-                  <circle cx="22.5" cy="22.5" r="14" fill="url(#gradBlue)" filter="url(#glowBlue)" />
-                </g>
-
-                <!-- Red Piece Template -->
-                <g id="p-red">
-                  <rect x="4" y="4" width="37" height="37" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
-                  <circle cx="22.5" cy="22.5" r="14" fill="url(#gradRed)" filter="url(#glowRed)" />
-                </g>
-
-                <linearGradient id="gradBlue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#60A5FA" />
-                  <stop offset="1" stop-color="#2563EB" />
-                </linearGradient>
-                <linearGradient id="gradRed" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#F87171" />
-                  <stop offset="1" stop-color="#DC2626" />
-                </linearGradient>
-                <filter id="glowBlue" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" />
-                  <feMerge>
-                    <feMergeNode />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="glowRed" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" />
-                  <feMerge>
-                    <feMergeNode />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-
-              <!-- Grid Layer -->
-              <rect width="360" height="405" fill="url(#grid)" opacity="0.4" />
-
-              <!-- Static Armies (Background) -->
-              <!-- Red (Top Rows 0-1) -->
-              <g opacity="0.6">
-                <use href="#p-red" x="0" y="0" />
-                <use href="#p-red" x="45" y="0" />
-                <use href="#p-red" x="90" y="0" />
-                <use href="#p-red" x="135" y="0" />
-                <use href="#p-red" x="180" y="0" />
-                <use href="#p-red" x="225" y="0" />
-                <use href="#p-red" x="270" y="0" />
-                <use href="#p-red" x="315" y="0" />
-                <use href="#p-red" x="0" y="45" />
-                <use href="#p-red" x="45" y="45" />
-                <use href="#p-red" x="90" y="45" />
-                <use href="#p-red" x="135" y="45" />
-                <use href="#p-red" x="180" y="45" />
-                <use href="#p-red" x="225" y="45" />
-                <use href="#p-red" x="270" y="45" />
-                <use href="#p-red" x="315" y="45" />
-              </g>
-              <!-- Blue (Bottom Rows 7-8) -->
-              <g opacity="0.6">
-                <use href="#p-blue" x="0" y="315" />
-                <use href="#p-blue" x="45" y="315" />
-                <use href="#p-blue" x="90" y="315" />
-                <use href="#p-blue" x="135" y="315" />
-                <use href="#p-blue" x="180" y="315" />
-                <use href="#p-blue" x="225" y="315" />
-                <use href="#p-blue" x="270" y="315" />
-                <use href="#p-blue" x="315" y="315" />
-                <use href="#p-blue" x="0" y="360" />
-                <use href="#p-blue" x="45" y="360" />
-                <use href="#p-blue" x="90" y="360" />
-                <use href="#p-blue" x="135" y="360" />
-                <use href="#p-blue" x="180" y="360" />
-                <use href="#p-blue" x="225" y="360" />
-                <use href="#p-blue" x="270" y="360" />
-                <use href="#p-blue" x="315" y="360" />
-              </g>
-
-              <!-- Active Pieces (Animated) -->
-              <!-- Group for easier coordinate mapping: Row 2-6 is the "Battlefield" -->
-
-              <!-- RED '5x' Piece -->
-              <!-- Start: Row 3, Col 3 (Index) -> x=135, y=135 -->
-              <g class="game-piece piece-red-active" transform="translate(135, 135)">
-                <use href="#p-red" class="pulse-target" />
-                <text x="22.5" y="27" text-anchor="middle" fill="white" font-weight="800" font-family="sans-serif"
-                  font-size="16">5x</text>
-              </g>
-
-              <!-- BLUE 'x^2' Piece -->
-              <!-- Start: Row 5, Col 2 (Index) -> x=90, y=225 -->
-              <g class="game-piece piece-blue-x2" transform="translate(90, 225)">
-                <use href="#p-blue" class="pulse-target" />
-                <text x="22.5" y="27" text-anchor="middle" fill="white" font-weight="800" font-family="sans-serif"
-                  font-size="16">x²</text>
-              </g>
-
-              <!-- BLUE '4' Piece -->
-              <!-- Start: Row 4, Col 4 (Index) -> x=180, y=180 (Sitting waiting) -->
-              <g class="game-piece piece-blue-4" transform="translate(180, 180)">
-                <use href="#p-blue" class="pulse-target" />
-                <text x="22.5" y="27" text-anchor="middle" fill="white" font-weight="800" font-family="sans-serif"
-                  font-size="16">4</text>
-              </g>
-            </svg>
-          </div>
+          <button id="open-rules" class="btn btn-ghost">Learn Rules</button>
         </div>
       </div>
     </main>
-
-    <!-- Features -->
-    <section class="features" id="features">
-      <div class="feature-card">
-        <div class="feature-icon">📐</div>
-        <h3 class="feature-title">Math-Based Combat</h3>
-        <p class="feature-desc">Units are polynomial terms. Flank your enemies to form quadratic equations. If the
-          discriminant is non-negative, you destroy them.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🧠</div>
-        <h3 class="feature-title">Strategic Depth</h3>
-        <p class="feature-desc">Linear pieces move orthogonally, quadratics move diagonally. Plan your formation to
-          maximize real roots (Δ ≥ 0).</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌐</div>
-        <h3 class="feature-title">Instant Multiplayer</h3>
-        <p class="feature-desc">Play locally, challenge the AI, or generate a code to play against a friend instantly
-          over P2P.</p>
-      </div>
-    </section>
 
     <!-- Footer -->
     <footer
@@ -208,7 +55,7 @@
 
   </div>
 
-  <!-- Modal (Same structure as before/required by landing.js) -->
+  <!-- Modal (Play Game) -->
   <div id="playModal" class="modal-overlay" aria-hidden="true">
     <div class="modal">
       <iframe id="playFrame" src="about:blank" title="Quadratic War play" frameborder="0"
@@ -216,8 +63,42 @@
     </div>
   </div>
 
+  <!-- Modal (Rules) -->
+  <div id="rulesModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal rules-modal">
+      <div class="rules-content">
+        <button class="close-rules" id="closeRules">×</button>
+        <h2>Game Rules</h2>
+        <div class="rules-text">
+          <h3>Overview</h3>
+          <p>Quadratic War is a two-player abstract strategy game that combines algebra and positional movement. Players
+            arrange pieces to form linear or quadratic equations. If a valid equation (ax² + bx + c = 0) with real
+            solutions is formed spanning both players' pieces, the opponent's pieces are removed.</p>
+
+          <h3>Movement</h3>
+          <ul>
+            <li><strong>Quadratic (x²):</strong> Moves up to 3 steps in any direction (Diagonal/Cardinal).</li>
+            <li><strong>Linear (x):</strong> Moves up to 2 steps (Horizontal/Vertical only).</li>
+            <li><strong>Constant (1):</strong> Moves 1 step forward only.</li>
+          </ul>
+
+          <h3>Winning</h3>
+          <p>Eliminate all opponent pieces. If you lose all your pieces, you lose.</p>
+
+          <h3>Equation Mechanic</h3>
+          <p>After a move, the game checks for lines of pieces involved. If they form an equation
+            <code>ax² + bx + c = 0</code>:
+          </p>
+          <ul>
+            <li><strong>Real Solutions (Δ ≥ 0):</strong> Success! Opponent's pieces in the line are destroyed.</li>
+            <li><strong>Complex Solutions (Δ < 0):</strong> Backfire! Your own pieces in the line are destroyed.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/js/landing/landing.js"></script>
-  <script src="assets/js/landing/animation.js"></script>
 </body>
 
 </html>

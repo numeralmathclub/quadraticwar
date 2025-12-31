@@ -38,9 +38,9 @@ const btnJoin = { x: 130, y: 340, w: 300, h: 60, text: "Join Game" };
 // btnBack already defined above
 
 
-// Game Buttons (Below Board)
-const btnGameBack = { x: 20, y: 640, w: 140, h: 45, text: "Exit to Menu" };
-const btnGameInstr = { x: 400, y: 640, w: 140, h: 45, text: "Instructions" };
+// Game Buttons (Below Board) - REMOVED per user request
+// const btnGameBack = { x: 20, y: 640, w: 140, h: 45, text: "Exit to Menu" };
+// const btnGameInstr = { x: 400, y: 640, w: 140, h: 45, text: "Instructions" };
 
 // Game Over Button
 const btnGameOverMenu = { x: 180, y: 400, w: 200, h: 50, text: "Main Menu" };
@@ -69,8 +69,6 @@ function initNetwork() {
             applyOpponentMove(data.move);
         } else if (data.type === 'START') {
             // Joiner receives START from Host
-            // PER USER REQUEST: Host is Blue (2), Joiner is Red (1)
-            // Blue starts.
             // PER USER REQUEST: Host is Blue (2), Joiner is Red (1)
             // Blue starts.
             startGame("ONLINE");
@@ -160,8 +158,6 @@ function startGame(mode) {
     // Host (Red) = Player 1
     // Joiner (Blue) = Player 2
     // So Joiner moves first!
-
-    currentPlayer = 2;
 
     currentPlayer = 2;
 
@@ -616,7 +612,8 @@ function drawBoard() {
         ctx.fillText(toLatexStyle(piece.term), x, y);
     }
 
-    // 4. In-Game Buttons
+    // 4. In-Game Buttons - REMOVED
+    /*
     [btnGameBack, btnGameInstr].forEach(btn => {
         const hovered = isHovered(btn);
         ctx.fillStyle = hovered ? COLORS.MENU_BTN_HOVER : COLORS.MENU_BTN;
@@ -633,6 +630,7 @@ function drawBoard() {
         ctx.textBaseline = "middle";
         ctx.fillText(btn.text.toUpperCase(), btn.x + btn.w / 2, btn.y + btn.h / 2);
     });
+    */
 
     // 5. Status Text (Between Buttons)
     // 280 is center of 560
@@ -706,6 +704,26 @@ function update(timestamp) {
     }
     requestAnimationFrame(update);
 }
+
+// --- URL PARAMETER HANDLING ---
+function checkUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
+    if (mode) {
+        // "PVP", "PVC", "ONLINE"
+        if (mode === "PVP" || mode === "PVC") {
+            startGame(mode);
+        } else if (mode === "ONLINE") {
+            gameState = "ONLINE_MENU";
+        }
+    }
+}
+
+// Ensure DOM is ready before checking params or starting loop
+document.addEventListener("DOMContentLoaded", () => {
+    checkUrlParams();
+    requestAnimationFrame(update);
+});
 
 function resetStatusText() {
     if (gameMode === "PVC") {
@@ -816,7 +834,8 @@ canvas.addEventListener('pointerdown', (e) => {
     }
 
     // GAMEPLAY CLICKS
-    // Check Navigation Buttons first
+    // Check Navigation Buttons first - REMOVED
+    /*
     if (x >= btnGameBack.x && x <= btnGameBack.x + btnGameBack.w && y >= btnGameBack.y && y <= btnGameBack.y + btnGameBack.h) {
         // Exit to Menu
         gameState = "MENU";
@@ -829,6 +848,7 @@ canvas.addEventListener('pointerdown', (e) => {
         gameState = "INSTRUCTIONS";
         return;
     }
+    */
 
     if (currentAnimation || animationQueue.length > 0 || isAIThinking) return;
 

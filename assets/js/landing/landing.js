@@ -2,34 +2,92 @@
 // Handles opening/closing the play modal and loading the iframe
 (function () {
     function init() {
-        var openBtn = document.getElementById('open-play');
+        var dropdown = document.querySelector('.dropdown');
+        var dropdownToggle = document.querySelector('.dropdown-toggle');
+        var dropdownItems = document.querySelectorAll('.dropdown-item');
+
         var overlay = document.getElementById('playModal');
         var iframe = document.getElementById('playFrame');
 
-        if (!openBtn || !overlay || !iframe) return;
+        // Rules UI
+        var rulesBtn = document.getElementById('open-rules');
+        var rulesModal = document.getElementById('rulesModal');
+        var closeRulesBtn = document.getElementById('closeRules');
 
-        function openPopup() {
-            // on mobile, open a dedicated mobile page (now at game.html) instead of a popup
+        if (!overlay || !iframe) return;
+
+        // Toggle Dropdown
+        dropdownToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('open');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        function openGamePopup(mode) {
+            // on mobile, open dedicated page with params
             var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia('(max-width:640px)').matches;
+            var targetUrl = 'game.html';
+            var embedUrl = 'embed.html';
+
+            if (mode) {
+                targetUrl += '?mode=' + mode;
+                embedUrl += '?mode=' + mode;
+            }
+
             if (isMobile) {
-                window.location.href = 'game.html';
+                window.location.href = targetUrl;
                 return;
             }
+
             overlay.classList.add('open');
             overlay.setAttribute('aria-hidden', 'false');
-            // load the compact embed page (only the canvas)
-            iframe.src = 'embed.html';
-            // compute and apply scale so the canvas fits on small viewports
+
+            iframe.src = embedUrl;
+
             applyScale();
-            // Some mobile browsers change viewport after opening (address bar hide/show)
-            // recalc after a short delay to ensure scale is correct
             setTimeout(applyScale, 200);
-            // recalc after orientation change (iPhone Safari hides address bar differently)
             window.addEventListener('orientationchange', applyScale);
-            // update scale on resize while open
             window.addEventListener('resize', applyScale);
             document.body.style.overflow = 'hidden';
+
+            // Close dropdown if open
+            dropdown.classList.remove('open');
         }
+
+        function applyScale() {
+            if (!overlay.classList.contains('open')) return;
+
+            // Base dimensions of the game board
+            var baseWidth = 560;
+            var baseHeight = 700;
+
+            // Available space (with some padding)
+            var availableWidth = window.innerWidth * 0.95;
+            var availableHeight = window.innerHeight * 0.95;
+
+            var scaleX = availableWidth / baseWidth;
+            var scaleY = availableHeight / baseHeight;
+
+            // Use the smaller scale to ensure it fits both dimensions
+            var scale = Math.min(scaleX, scaleY, 1); // max scale 1
+
+            document.documentElement.style.setProperty('--play-popup-scale', scale);
+        }
+
+        // Handle Dropdown Items
+        dropdownItems.forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                var mode = this.getAttribute('data-mode');
+                openGamePopup(mode);
+            });
+        });
 
         function closePopup() {
             overlay.classList.remove('open');
@@ -41,39 +99,28 @@
             document.documentElement.style.setProperty('--play-popup-scale', 1);
         }
 
-        function applyScale() {
-            // desired canvas size
-            var cw = 560, ch = 700;
-            var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-            var vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-            // read overlay padding to avoid touching edges
-            var style = window.getComputedStyle(overlay);
-            var padX = (parseFloat(style.paddingLeft) || 16) + (parseFloat(style.paddingRight) || 16);
-            var padY = (parseFloat(style.paddingTop) || 16) + (parseFloat(style.paddingBottom) || 16);
-            var availableW = Math.max(0, vw - padX);
-            var availableH = Math.max(0, vh - padY);
-
-            // prefer width-fitting on narrow/portrait viewports
-            var isPortrait = vh >= vw;
-            var scale;
-            if (isPortrait || vw < cw) {
-                scale = Math.min(1, availableW / cw);
-            } else {
-                scale = Math.min(1, availableW / cw, availableH / ch);
-            }
-
-            if (!isFinite(scale) || scale <= 0) scale = 1;
-            document.documentElement.style.setProperty('--play-popup-scale', scale);
+        // --- Rules Modal Logic ---
+        function openRules() {
+            rulesModal.classList.add('open');
+            rulesModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
         }
 
-        openBtn.addEventListener('click', function (e) { e.preventDefault(); openPopup(); });
+        function closeRules() {
+            rulesModal.classList.remove('open');
+            rulesModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        if (rulesBtn) rulesBtn.addEventListener('click', function (e) { e.preventDefault(); openRules(); });
+        if (closeRulesBtn) closeRulesBtn.addEventListener('click', closeRules);
+
+        // General modal close on background click
         overlay.addEventListener('click', function (e) { if (e.target === overlay) closePopup(); });
+        rulesModal.addEventListener('click', function (e) { if (e.target === rulesModal) closeRules(); });
 
         // allow the play iframe to request closing via postMessage
         window.addEventListener('message', function (ev) { if (ev.data === 'closePlayPopup') closePopup(); });
-
-        // Animation logic moved to assets/js/landing/animation.js
-        // Conflicting setInterval removed.
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

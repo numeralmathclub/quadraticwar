@@ -23,14 +23,14 @@
   --glow: 0 0 40px rgba(139, 92, 246, 0.15);
 }
 
-html,
 body {
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-main);
   overflow-x: hidden;
+  position: relative;
   scroll-behavior: smooth;
 }
 
@@ -82,6 +82,7 @@ body::after {
   font-weight: 800;
   background: linear-gradient(135deg, var(--text-main), var(--text-muted));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
 }
@@ -147,6 +148,7 @@ body::after {
 .text-gradient {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.3));
 }
@@ -207,255 +209,155 @@ body::after {
   transform: translateY(-2px);
 }
 
-/* --- Immersive 3D Demo Board --- */
-.demo-scene {
-  perspective: 1200px;
-  width: 100%;
+/* --- Static Premium Visual --- */
+.static-preview-container {
+  margin-top: -20px;
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
-  margin-top: -20px;
-  padding-bottom: 40px;
-  z-index: 1;
+  perspective: 1000px;
 }
 
-.demo-card {
+.static-preview-card {
+  width: 320px;
+  height: 200px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 24px;
   position: relative;
-  background: #0f172a;
-  /* Solid bg to prevent see-through mess */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 32px;
-  padding: 20px;
+  backdrop-filter: blur(20px);
   box-shadow:
-    0 50px 100px -20px rgba(0, 0, 0, 0.8),
-    0 0 60px rgba(139, 92, 246, 0.2);
-  transform: rotateX(25deg) scale(0.9);
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transform-style: preserve-3d;
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(139, 92, 246, 0.15);
+  transform: rotateX(10deg);
+  transition: transform 0.5s ease;
+  overflow: hidden;
 }
 
-.demo-card:hover {
-  transform: rotateX(10deg) scale(0.95) translateY(-20px);
+.static-preview-card:hover {
+  transform: rotateX(0deg) scale(1.05);
+  border-color: var(--accent-primary);
   box-shadow:
-    0 60px 120px -20px rgba(0, 0, 0, 0.9),
-    0 0 80px rgba(6, 182, 212, 0.3);
-  border-color: var(--accent-secondary);
+    0 30px 60px -12px rgba(0, 0, 0, 0.6),
+    0 0 120px rgba(139, 92, 246, 0.25);
 }
 
-/* Grid Background inside Card */
-.demo-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 45px 45px;
-  /* Match grid size exactly */
-  mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
-  border-radius: 32px;
-  pointer-events: none;
-}
-
-.demo-stage {
-  position: relative;
-  /* aspect-ratio: 4/3; Remove fixed aspect, let SVG dictate */
+.static-preview-inner {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* SVG Styling */
-.demo-stage svg {
-  max-width: 100%;
-  height: auto;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
-}
-
-/* Steps Indicator - Hidden or Subtle for V2? Let's hide it, it's distraction */
-.step-ui {
-  display: none;
-}
-
-/* Elements Animation */
-.game-piece {
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* --- New Combo Popup (Replaces Equation Overlay) --- */
-.combo-popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background: rgba(2, 6, 23, 0.9);
-  border: 1px solid var(--accent-success);
-  box-shadow:
-    0 0 40px rgba(16, 185, 129, 0.4),
-    inset 0 0 20px rgba(16, 185, 129, 0.1);
-  padding: 20px 40px;
-  border-radius: 16px;
-  text-align: center;
-  z-index: 10;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  backdrop-filter: blur(12px);
-  pointer-events: none;
-  /* Let clicks pass through */
-}
-
-.combo-text {
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: var(--text-muted);
-  font-weight: 700;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.combo-value {
-  font-size: 32px;
+.math-overlay {
+  display: flex;
+  gap: 12px;
+  align-items: center;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 800;
-  background: linear-gradient(90deg, #60A5FA, #ffffff, #F87171);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+  font-size: 28px;
 }
 
-.combo-sub {
-  font-size: 12px;
+.math-term {
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.term-1 {
+  background: rgba(37, 99, 235, 0.2);
+  /* Blue tint */
+  color: #60A5FA;
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.term-2 {
+  background: rgba(220, 38, 38, 0.2);
+  /* Red tint */
+  color: #F87171;
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+.term-3 {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}
+
+.math-eq {
   color: var(--accent-success);
-  margin-top: 8px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  animation: blink 0.5s infinite alternate;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
 }
 
-@keyframes blink {
-  from {
-    opacity: 0.6;
-  }
-
-  to {
-    opacity: 1;
-  }
+.preview-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1), transparent 70%);
+  pointer-events: none;
 }
 
-/* --- Animation States (4 Steps) --- */
 
-/* Utility: Reset Phase */
-.demo-card.anim-reset .game-piece {
-  transition: none !important;
-}
-
-/* STEP 1: Deployment (Default) */
-.demo-card[data-step="1"] .piece-red-active {
-  transform: translate(0, 0);
-}
-
-.demo-card[data-step="1"] .piece-blue-x2 {
-  transform: translate(0, 0);
-}
-
-.demo-card[data-step="1"] .piece-blue-4 {
-  transform: translate(0, 0);
-}
-
-.demo-card[data-step="1"] .combo-popup {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0) rotateX(-20deg);
-}
-
-/* STEP 2: Maneuver */
-.demo-card[data-step="2"] .piece-red-active {
-  transform: translate(0, 45px);
-}
-
-.demo-card[data-step="2"] .piece-blue-x2 {
-  transform: translate(45px, -90px);
-}
-
-.demo-card[data-step="2"] .piece-blue-4 {
-  transform: translate(0, 0);
-}
-
-.demo-card[data-step="2"] .combo-popup {
-  opacity: 0;
-}
-
-/* STEP 3: The Attack (Combo!) */
-.demo-card[data-step="3"] .piece-red-active {
-  transform: translate(0, 90px);
-}
-
-.demo-card[data-step="3"] .piece-blue-x2 {
-  transform: translate(45px, -90px);
-}
-
-.demo-card[data-step="3"] .piece-blue-4 {
-  transform: translate(0, 0);
-}
-
-/* Pop the Combo UI */
-.demo-card[data-step="3"] .combo-popup {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1) rotateX(0deg);
-  /* Counteract parent rotation? No, parent rotates container */
-  /* If parent is rotated, popup will be 3D. Looks cool. */
-}
-
-/* Pulse Pieces */
-.demo-card[data-step="3"] .pulse-target {
-  animation: pulse-glow 0.8s infinite;
-}
-
-/* STEP 4: Resolution */
-.demo-card[data-step="4"] .piece-red-active {
-  transform: translate(0, 90px);
-}
-
-.demo-card[data-step="4"] .piece-blue-x2 {
-  transform: translate(45px, -90px) scale(0);
-  opacity: 0;
-  filter: blur(10px);
-}
-
-.demo-card[data-step="4"] .piece-blue-4 {
-  transform: translate(0, 0) scale(0);
-  opacity: 0;
-  filter: blur(10px);
-}
-
-/* Combo stays for a bit then fades in logic loop */
-.demo-card[data-step="4"] .combo-popup {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(1.2);
-  /* Expand out */
-}
-
-/* --- Features Grid --- */
+/* --- Features Grid (Glassmorphism) --- */
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
-  margin: 60px auto;
-  max-width: 1000px;
+  margin: 80px auto;
+  max-width: 1200px;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 40px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Feature Icon Background */
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 24px;
+  display: inline-flex;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.feature-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+.feature-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
 }
 
 /* Responsive Tweaks */
 @media (max-width: 900px) {
   .hero-title {
     font-size: 48px;
-  }
-
-  .demo-card {
-    transform: none;
-    /* Disable 3D on mobile for readability */
-    margin: 0 20px;
-  }
-
-  .demo-card:hover {
-    transform: none;
   }
 }
 
@@ -477,11 +379,134 @@ body::after {
 
 .modal-overlay.open {
   display: flex;
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
-.modal {
-  background: transparent;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
+/* --- Dropdown Menu --- */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(15, 23, 42, 0.95);
+  min-width: 220px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(12px);
+}
+
+.dropdown.open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 16px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--text-main);
+}
+
+/* --- Rules Modal --- */
+.rules-modal .rules-content {
+  background: #0f172a;
+  width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.rules-content h2 {
+  padding: 24px;
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  color: var(--accent-primary);
+  border-bottom: 1px solid var(--glass-border);
+  text-align: center;
+}
+
+.rules-text {
+  padding: 24px;
+  overflow-y: auto;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.rules-text h3 {
+  color: var(--text-main);
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.rules-text h3:first-child {
+  margin-top: 0;
+}
+
+.rules-text ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.rules-text li {
+  margin-bottom: 8px;
+}
+
+.close-rules {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.close-rules:hover {
+  color: var(--text-main);
+}
+
 
 .modal iframe {
   width: 560px;
@@ -489,6 +514,8 @@ body::after {
   border-radius: 12px;
   border: 1px solid var(--glass-border);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transform: scale(var(--play-popup-scale, 1));
+  transform-origin: center center;
 }
 
 @media (max-width: 600px) {
