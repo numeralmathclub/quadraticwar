@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="assets/css/game.css">
     <link rel="stylesheet" href="assets/css/embed.css">
     <link rel="stylesheet" href="assets/css/mobile.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f0f13">
 </head>
 
 <body>
@@ -19,6 +21,15 @@
 
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <script type="module" src="assets/js/game/main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('SW registered:', reg))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Quadratic War - The Algebra Strategy Game</title>
   <link rel="stylesheet" href="assets/css/landing.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f0f13">
 </head>
 
 <body>
@@ -99,6 +101,15 @@
   </div>
 
   <script src="assets/js/landing/landing.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('SW registered:', reg))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
 </body>
 
 </html>
