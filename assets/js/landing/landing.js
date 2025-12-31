@@ -1,6 +1,23 @@
 // landing.js
 // Handles opening/closing the play modal and loading the iframe
 (function () {
+    // PWA State
+    var deferredPrompt;
+    var installBtn;
+
+    // Capture the event immediately, don't wait for DOMContentLoaded
+    window.addEventListener('beforeinstallprompt', function (e) {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        console.log('beforeinstallprompt fired');
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI if it's already ready, otherwise init() will pick it up
+        if (installBtn) {
+            installBtn.style.display = 'inline-flex';
+        }
+    });
+
     function init() {
         var dropdown = document.querySelector('.dropdown');
         var dropdownToggle = document.querySelector('.dropdown-toggle');
@@ -14,9 +31,14 @@
         var rulesModal = document.getElementById('rulesModal');
         var closeRulesBtn = document.getElementById('closeRules');
 
-        // PWA Install UI
-        var installBtn = document.getElementById('install-app');
-        var deferredPrompt;
+        // PWA Install UI - Initialize element
+        installBtn = document.getElementById('install-app');
+
+        // Check if event already fired
+        if (deferredPrompt && installBtn) {
+            console.log('Restoring deferred prompt state');
+            installBtn.style.display = 'inline-flex';
+        }
 
         if (!overlay || !iframe) return;
 
@@ -126,18 +148,7 @@
         // allow the play iframe to request closing via postMessage
         window.addEventListener('message', function (ev) { if (ev.data === 'closePlayPopup') closePopup(); });
 
-        // --- PWA Install Logic ---
-        window.addEventListener('beforeinstallprompt', function (e) {
-            // Prevent the mini-infobar from appearing on mobile
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            // Update UI notify the user they can install the PWA
-            if (installBtn) {
-                installBtn.style.display = 'inline-flex';
-            }
-        });
-
+        // --- PWA Install Logic (Click Handler) ---
         if (installBtn) {
             installBtn.addEventListener('click', function (e) {
                 // Hide the app provided install promotion
@@ -153,8 +164,6 @@
                             console.log('User dismissed the install prompt');
                         }
                         deferredPrompt = null;
-                        // Determine if the user installed, if so, keep button hidden. 
-                        // If canceled, we could show it again, but usually better to wait for next visit or reload.
                     });
                 }
             });

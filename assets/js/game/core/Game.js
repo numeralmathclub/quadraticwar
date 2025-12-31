@@ -219,7 +219,7 @@ export default class Game {
         }
         if (this.gameState === "GAME_OVER") {
             if (this.isClicked(UI_BUTTONS.btnGameOverMenu, x, y)) {
-                window.location.href = '/';
+                window.location.href = '/quadraticwar/';
             }
             return;
         }
