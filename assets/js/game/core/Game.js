@@ -1,4 +1,4 @@
-import { BOARD_ROWS, BOARD_COLS, TILE_SIZE, COLORS, toLatexStyle, TOP_BAR_HEIGHT } from '../utils/Constants.js';
+import { BOARD_ROWS, BOARD_COLS, TILE_SIZE, COLORS, toLatexStyle, STATUS_BAR_HEIGHT, TITLE_BAR_HEIGHT } from '../utils/Constants.js';
 import { getTermAtPos, getValidMoves, checkForEquations, checkGameEnd } from './Rules.js';
 import { makeBestMove } from './AI.js';
 import { Renderer } from '../view/Renderer.js';
@@ -240,7 +240,7 @@ export default class Game {
         if (this.gameMode === "ONLINE" && !this.isOnlineTurn) return;
 
         let visC = Math.floor(x / TILE_SIZE);
-        let visR = Math.floor((y - TOP_BAR_HEIGHT) / TILE_SIZE);
+        let visR = Math.floor((y - TITLE_BAR_HEIGHT) / TILE_SIZE);
 
         if (visR >= 0 && visR < BOARD_ROWS && visC >= 0 && visC < BOARD_COLS) {
             // Orientation

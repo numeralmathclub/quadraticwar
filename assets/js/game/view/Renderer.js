@@ -1,4 +1,4 @@
-import { BOARD_ROWS, BOARD_COLS, TILE_SIZE, COLORS, toLatexStyle, TOP_BAR_HEIGHT } from '../utils/Constants.js';
+import { BOARD_ROWS, BOARD_COLS, TILE_SIZE, COLORS, toLatexStyle, STATUS_BAR_HEIGHT, TITLE_BAR_HEIGHT } from '../utils/Constants.js';
 
 export class Renderer {
     constructor(canvas, ctx) {
@@ -39,7 +39,7 @@ export class Renderer {
         for (let r = 0; r < BOARD_ROWS; r++) {
             for (let c = 0; c < BOARD_COLS; c++) {
                 const x = c * TILE_SIZE;
-                const y = r * TILE_SIZE + TOP_BAR_HEIGHT;
+                const y = r * TILE_SIZE + TITLE_BAR_HEIGHT;
                 this.ctx.fillStyle = (r + c) % 2 === 0 ? COLORS.BOARD_LIGHT : COLORS.BOARD_DARK;
                 this.ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
@@ -72,14 +72,14 @@ export class Renderer {
             anim.coords.forEach(pos => {
                 let visR = rotate ? BOARD_ROWS - 1 - pos.r : pos.r;
                 let visC = rotate ? BOARD_COLS - 1 - pos.c : pos.c;
-                this.ctx.fillRect(visC * TILE_SIZE, visR * TILE_SIZE + TOP_BAR_HEIGHT, TILE_SIZE, TILE_SIZE);
+                this.ctx.fillRect(visC * TILE_SIZE, visR * TILE_SIZE + TITLE_BAR_HEIGHT, TILE_SIZE, TILE_SIZE);
             });
 
             this.ctx.globalAlpha = 1.0; this.ctx.strokeStyle = color; this.ctx.lineWidth = 4;
             anim.coords.forEach(pos => {
                 let visR = rotate ? BOARD_ROWS - 1 - pos.r : pos.r;
                 let visC = rotate ? BOARD_COLS - 1 - pos.c : pos.c;
-                this.ctx.strokeRect(visC * TILE_SIZE + 2, visR * TILE_SIZE + 2 + TOP_BAR_HEIGHT, TILE_SIZE - 4, TILE_SIZE - 4);
+                this.ctx.strokeRect(visC * TILE_SIZE + 2, visR * TILE_SIZE + 2 + TITLE_BAR_HEIGHT, TILE_SIZE - 4, TILE_SIZE - 4);
             });
         }
 
@@ -92,7 +92,7 @@ export class Renderer {
             let visC = rotate ? BOARD_COLS - 1 - c : c;
 
             const x = visC * TILE_SIZE + TILE_SIZE / 2;
-            const y = visR * TILE_SIZE + TILE_SIZE / 2 + TOP_BAR_HEIGHT;
+            const y = visR * TILE_SIZE + TILE_SIZE / 2 + TITLE_BAR_HEIGHT;
             const radius = TILE_SIZE / 2 - 6;
 
             if (selectedCoin && selectedCoin.r === r && selectedCoin.c === c) {

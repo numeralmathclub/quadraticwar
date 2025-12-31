@@ -1,4 +1,6 @@
-import { COLORS, TOP_BAR_HEIGHT } from '../utils/Constants.js';
+import { COLORS, STATUS_BAR_HEIGHT, BOARD_ROWS, TILE_SIZE, TITLE_BAR_HEIGHT } from '../utils/Constants.js';
+
+const BOARD_HEIGHT = BOARD_ROWS * TILE_SIZE;
 
 export const UI_BUTTONS = {
 
@@ -8,7 +10,7 @@ export const UI_BUTTONS = {
     btnGameOverMenu: { x: 180, y: 400, w: 200, h: 50, text: "Main Menu" },
     btnConnect: { x: 130, y: 400, w: 300, h: 50, text: "CONNECT" },
     btnCancel: { x: 130, y: 470, w: 300, h: 50, text: "CANCEL" },
-    btnClose: { x: 480, y: 15, w: 60, h: 40, text: "EXIT" }
+    btnClose: { x: 505, y: 5, w: 40, h: 40, text: "✕" }
 };
 
 export class UI {
@@ -238,27 +240,43 @@ export class UI {
     }
 
     drawStatus(text, color) {
-        this.ctx.fillStyle = color;
-        const fontSize = text.length > 30 ? 13 : 16;
-        this.ctx.font = `600 ${fontSize}px 'Lato', sans-serif`;
+        // Draw Title Bar
+        this.ctx.fillStyle = "#0f172a"; // Darker background for title
+        this.ctx.fillRect(0, 0, this.canvas.width, TITLE_BAR_HEIGHT);
+
+        this.ctx.fillStyle = COLORS.MENU_ACCENT;
+        this.ctx.font = "700 24px 'Cinzel', serif";
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
-        this.ctx.fillText(text, this.canvas.width / 2, TOP_BAR_HEIGHT / 2);
+        this.ctx.letterSpacing = "2px";
+        this.ctx.fillText("QUADRATIC WAR", this.canvas.width / 2, TITLE_BAR_HEIGHT / 2 + 2);
+        this.ctx.letterSpacing = "0px";
 
-        // Draw Close Button
+        // Draw Status Bar Background
+        this.ctx.fillStyle = "#1e293b"; // Dark Slate
+        this.ctx.fillRect(0, TITLE_BAR_HEIGHT + BOARD_HEIGHT, this.canvas.width, STATUS_BAR_HEIGHT);
+
+        this.ctx.fillStyle = color;
+        const fontSize = text.length > 30 ? 14 : 16;
+        this.ctx.font = `500 ${fontSize}px 'Lato', sans-serif`;
+        this.ctx.letterSpacing = "1px";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.fillText(text.toUpperCase(), this.canvas.width / 2, TITLE_BAR_HEIGHT + BOARD_HEIGHT + STATUS_BAR_HEIGHT / 2);
+        this.ctx.letterSpacing = "0px";
+
+        // Draw Close Button (Icon Style)
         const btn = UI_BUTTONS.btnClose;
         const hovered = this.isHovered(btn);
 
-        this.renderer.drawRoundedRect(btn.x, btn.y, btn.w, btn.h, 8);
-        this.ctx.fillStyle = hovered ? COLORS.MENU_BTN_HOVER : "rgba(255, 255, 255, 0.2)";
-        this.ctx.fill();
+        if (hovered) {
+            this.renderer.drawRoundedRect(btn.x, btn.y, btn.w, btn.h, 8);
+            this.ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+            this.ctx.fill();
+        }
 
-        this.ctx.strokeStyle = hovered ? COLORS.MENU_ACCENT : "rgba(255, 255, 255, 0.4)";
-        this.ctx.lineWidth = 1;
-        this.ctx.stroke();
-
-        this.ctx.fillStyle = hovered ? COLORS.MENU_ACCENT : COLORS.MENU_TEXT;
-        this.ctx.font = "700 12px 'Cinzel', serif";
-        this.ctx.fillText(btn.text, btn.x + btn.w / 2, btn.y + btn.h / 2);
+        this.ctx.fillStyle = hovered ? "#ef4444" : "rgba(255, 255, 255, 0.5)";
+        this.ctx.font = "700 24px 'Lato', sans-serif";
+        this.ctx.fillText(btn.text, btn.x + btn.w / 2, btn.y + btn.h / 2 + 1);
     }
 }
