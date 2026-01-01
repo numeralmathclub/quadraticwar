@@ -1,5 +1,5 @@
 import { BOARD_ROWS, BOARD_COLS, TILE_SIZE, COLORS, toLatexStyle, STATUS_BAR_HEIGHT, TITLE_BAR_HEIGHT } from '../utils/Constants.js';
-import { getTermAtPos, getValidMoves, checkForEquations, checkGameEnd } from './Rules.js';
+import { getTermAtPos, getValidMoves, checkForEquations, checkGameEnd, executeMove, getBoardKey } from './Rules.js';
 import { makeBestMove } from './AI.js';
 import { Renderer } from '../view/Renderer.js';
 import { UI, UI_BUTTONS } from '../view/UI.js';
@@ -134,15 +134,12 @@ export default class Game {
 
     applyOpponentMove(move) {
         const { start, end } = move;
-        const startKey = `${start.r},${start.c}`;
-        const endKey = `${end.r},${end.c}`;
 
-        this.board[endKey] = this.board[startKey];
-        delete this.board[startKey];
+        const result = executeMove(this.board, move, this.currentPlayer);
+        this.board = result.newBoard;
 
-        const equations = checkForEquations(this.board, end.r, end.c, this.currentPlayer);
-        if (equations.length > 0) {
-            this.animationQueue.push(...equations);
+        if (result.equations.length > 0) {
+            this.animationQueue.push(...result.equations);
         } else {
             this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
             this.isOnlineTurn = true;
@@ -160,14 +157,11 @@ export default class Game {
         setTimeout(() => {
             const move = makeBestMove(this.board, 1);
             if (move) {
-                const startKey = `${move.start.r},${move.start.c}`;
-                const endKey = `${move.end.r},${move.end.c}`;
-                this.board[endKey] = this.board[startKey];
-                delete this.board[startKey];
+                const result = executeMove(this.board, move, 1);
+                this.board = result.newBoard;
 
-                const equations = checkForEquations(this.board, move.end.r, move.end.c, 1);
-                if (equations.length > 0) {
-                    this.animationQueue.push(...equations);
+                if (result.equations.length > 0) {
+                    this.animationQueue.push(...result.equations);
                 } else {
                     this.currentPlayer = 2;
                     this.resetStatusText();
@@ -274,14 +268,15 @@ export default class Game {
                         this.isOnlineTurn = false;
                     }
 
-                    this.board[key] = this.board[startKey];
-                    delete this.board[startKey];
+                    const move = { start: { r: startR, c: startC }, end: { r, c } };
+                    const result = executeMove(this.board, move, this.currentPlayer);
+                    this.board = result.newBoard;
+
                     this.selectedCoin = null;
                     this.validMoves = [];
 
-                    const equations = checkForEquations(this.board, r, c, this.currentPlayer);
-                    if (equations.length > 0) {
-                        this.animationQueue.push(...equations);
+                    if (result.equations.length > 0) {
+                        this.animationQueue.push(...result.equations);
                     } else {
                         // Switch turn
                         this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;

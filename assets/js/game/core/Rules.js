@@ -130,6 +130,30 @@ export function checkForEquations(board, r, c, activePlayer) {
     return detected;
 }
 
+export function getBoardKey(r, c) {
+    return `${r},${c}`;
+}
+
+// Executes a move on a standard board object. 
+// Returns: { newBoard, equations, success }
+// Does not mutate the original board if possible (returns a shallow copy with changes).
+export function executeMove(board, move, player) {
+    const newBoard = { ...board };
+    const startKey = getBoardKey(move.start.r, move.start.c);
+    const endKey = getBoardKey(move.end.r, move.end.c);
+
+    if (!newBoard[startKey]) {
+        console.error("Attempted move from empty square", startKey);
+        return { newBoard: board, equations: [], success: false };
+    }
+
+    newBoard[endKey] = newBoard[startKey];
+    delete newBoard[startKey];
+
+    const equations = checkForEquations(newBoard, move.end.r, move.end.c, player);
+    return { newBoard, equations, success: true };
+}
+
 export function checkGameEnd(board) {
     let redPieces = 0;
     let bluePieces = 0;

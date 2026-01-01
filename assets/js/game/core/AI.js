@@ -1,4 +1,4 @@
-import { getValidMoves, checkForEquations } from './Rules.js';
+import { getValidMoves, executeMove } from './Rules.js';
 
 export function makeBestMove(board, player) {
     let allMoves = [];
@@ -25,15 +25,10 @@ export function makeBestMove(board, player) {
     allMoves.forEach(move => {
         let score = 0;
         // Simulation
-        const simBoard = { ...board }; // Shallow copy
-        const startKey = `${move.start.r},${move.start.c}`;
-        const endKey = `${move.end.r},${move.end.c}`;
+        const result = executeMove(board, move, player);
+        if (!result.success) return; // Should not happen with valid moves
 
-        const movingPiece = simBoard[startKey];
-        delete simBoard[startKey];
-        simBoard[endKey] = movingPiece;
-
-        const equations = checkForEquations(simBoard, move.end.r, move.end.c, player);
+        const equations = result.equations;
 
         // Score Calculation
         if (equations.length > 0) {
