@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
             game.gameState = "ONLINE_MENU";
         }
     } else {
-        window.location.href = '/';
+        window.location.href = '/quadraticwar/';
     }
 
     // Expose for debugging
